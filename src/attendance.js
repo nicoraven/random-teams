@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Attendance extends Component {
-    constructor() {
-        super();
-    }
+    // constructor() {
+    //     super();
+    // }
 
     state = {
         present: [],
@@ -12,7 +12,25 @@ class Attendance extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.location.search);
+        this.getNamesFromURL();
+    }
+
+    getNamesFromURL = () => {
+        // console.log(this.props.location.search);
+        if (this.props.location.search.length > 0) {
+
+            let queryParams = {};
+            let inputQuery = this.props.location.search.replace('?','').replace('%20', ' ').split('&');
+
+            for (let i = 0; i < inputQuery.length; i++) {
+                let queryPair = inputQuery[i].split('=');
+                queryParams[queryPair[0]] = queryPair[1].split('+');
+            };
+
+            this.setState({present: queryParams.present, absent: queryParams.absent}, () => {
+                console.log("Loaded!", this.state);
+            });
+        }
     }
 
     render() {
