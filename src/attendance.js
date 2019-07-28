@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Attendance extends Component {
-    // constructor() {
-    //     super();
-    // }
-
     state = {
         present: [],
         absent: []
@@ -20,7 +16,7 @@ class Attendance extends Component {
         if (this.props.location.search.length > 0) {
 
             let queryParams = {};
-            let inputQuery = this.props.location.search.replace('?','').replace('%20', ' ').split('&');
+            let inputQuery = this.props.location.search.replace('?','').replace(/%20/g, ' ').split('&');
 
             for (let i = 0; i < inputQuery.length; i++) {
                 let queryPair = inputQuery[i].split('=');
@@ -43,8 +39,6 @@ class Attendance extends Component {
 
         newQuery = "?".concat(newQuery.join("&"));
 
-        console.log(newQuery);
-        console.log(this.props);
         this.props.history.push('/'+newQuery);
     }
 
@@ -58,7 +52,7 @@ class Attendance extends Component {
                 let updatedPresent = this.state.present;
                 updatedPresent = [...updatedPresent, newName.toLowerCase()];
                 this.setState({present: updatedPresent}, () => {
-                    console.log(this.state);
+                    console.log("added!", this.state);
                     this.formNewURL();
                 });
             };
@@ -66,38 +60,77 @@ class Attendance extends Component {
         }
     }
 
+    toggleAttendance = (event) => {
+        let clickedName = event.target.innerText.toLowerCase();
+        let attendance = event.target.parentNode.id;
+        let updatedList = this.state;
+
+        let index = updatedList[attendance].findIndex(name => {return name === clickedName});
+        updatedList[attendance].splice(index, 1);
+
+        if (attendance === "present") {
+            updatedList.absent = [...updatedList.absent, clickedName];
+        } else {
+            updatedList.present = [...updatedList.present, clickedName];
+        };
+
+        this.setState({present: updatedList.present, absent: updatedList.absent}, () => {
+            this.formNewURL();
+        });
+    }
+
     render() {
         console.log("rendering!", this.state);
-        let sortedPresent = this.state.present.sort((a, b) => {
-            return a.localeCompare(b);
-        });
-        let sortedAbsent = this.state.absent.sort((a, b) => {
-            return a.localeCompare(b);
-        });
-
-        let presentCount = this.state.present.length;
-        let absentCount = this.state.absent.length;
-
-        let presentNames = sortedPresent.map((name, index) => {
-            name = name.charAt(0).toUpperCase() + name.slice(1);
-            return (<li key={index} >{name}</li>)
-        });
-        let absentNames = sortedAbsent.map((name, index) => {
-            name = name.charAt(0).toUpperCase() + name.slice(1);
-            return (<li key={index} >{name}</li>)
-        });
 
         return (
             <div>
                 <input type="text" id="name-input" name="name" onKeyDown={this.submitHandler}/>
-                <p>Present: <span id="present-count">{presentCount}</span></p>
-                <ul id="present">
+                <PresentTab present={this.state.present} switch={this.toggleAttendance} />
+                <AbsentTab absent={this.state.absent} switch={this.toggleAttendance} />
+            </div>
+        )
+    }
+}
+
+class PresentTab extends Component {
+    render() {
+        let paxCount = this.props.present.length;
+        let sorted = this.props.present.sort((a, b) => {
+            return a.localeCompare(b);
+        });
+        let presentNames = sorted.map((name, index) => {
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            return (<div key={index} onClick={this.props.switch} >{name}</div>)
+        });
+
+        return (
+            <div className="tab">
+                <p>Present: <span className="pax-count">{paxCount}</span></p>
+                <div className="names" id="present">
                     {presentNames}
-                </ul>
-                <p>Absent: <span id="present-count">{absentCount}</span></p>
-                <ul id="absent">
+                </div>
+            </div>
+        )
+    }
+}
+
+class AbsentTab extends Component {
+    render() {
+        let paxCount = this.props.absent.length;
+        let sorted = this.props.absent.sort((a, b) => {
+            return a.localeCompare(b);
+        });
+        let absentNames = sorted.map((name, index) => {
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            return (<div key={index} onClick={this.props.switch} >{name}</div>)
+        });
+
+        return (
+            <div className="tab">
+                <p>Absent: <span className="pax-count">{paxCount}</span></p>
+                <div className="names" id="absent">
                     {absentNames}
-                </ul>
+                </div>
             </div>
         )
     }

@@ -1,3 +1,7 @@
 #header {
 	text-decoration: underline;
 }
+
+div {
+	border: solid 1px red;
+}
