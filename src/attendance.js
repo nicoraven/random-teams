@@ -60,9 +60,10 @@ class Attendance extends Component {
         }
     }
 
-    toggleAttendance = (event) => {
-        let clickedName = event.target.innerText.toLowerCase();
-        let attendance = event.target.parentNode.id;
+    toggleAttendance = (category, name) => {
+        let clickedName = name.toLowerCase();
+        let attendance = category;
+        console.log(clickedName, attendance);
         let updatedList = this.state;
 
         let index = updatedList[attendance].findIndex(name => {return name === clickedName});
@@ -79,14 +80,23 @@ class Attendance extends Component {
         });
     }
 
+    deleteName = (event) => {
+        console.log("delete!")
+    }
+
     render() {
         console.log("rendering!", this.state);
 
+        let totalCount = this.state.present.length + this.state.absent.length;
+
         return (
-            <div>
-                <input type="text" id="name-input" name="name" onKeyDown={this.submitHandler}/>
-                <PresentTab present={this.state.present} switch={this.toggleAttendance} />
-                <AbsentTab absent={this.state.absent} switch={this.toggleAttendance} />
+            <div id="attendance-wrapper">
+                <h2>People <span className="total-count">Total: {totalCount}</span></h2>
+                <input type="text" id="name-input" name="name" placeholder="enter new name" onKeyDown={this.submitHandler}/>
+                <div id="attendance-lists">
+                    <PresentTab present={this.state.present} switch={this.toggleAttendance} />
+                    <AbsentTab absent={this.state.absent} switch={this.toggleAttendance} delete={this.deleteName} />
+                </div>
             </div>
         )
     }
@@ -100,12 +110,12 @@ class PresentTab extends Component {
         });
         let presentNames = sorted.map((name, index) => {
             name = name.charAt(0).toUpperCase() + name.slice(1);
-            return (<div key={index} onClick={this.props.switch} >{name}</div>)
+            return (<div key={index} className="name present" onClick={() => {this.props.switch("present", name)}} >{name}</div>)
         });
 
         return (
             <div className="tab">
-                <p>Present: <span className="pax-count">{paxCount}</span></p>
+                <h3>Present: <span className="pax-count">{paxCount}</span></h3>
                 <div className="names" id="present">
                     {presentNames}
                 </div>
@@ -122,12 +132,21 @@ class AbsentTab extends Component {
         });
         let absentNames = sorted.map((name, index) => {
             name = name.charAt(0).toUpperCase() + name.slice(1);
-            return (<div key={index} onClick={this.props.switch} >{name}</div>)
+            return (
+                <div key={index} className="absent-wrapper">
+                    <div className="name absent" onClick={() => {this.props.switch("absent", name)}} >
+                        {name}
+                    </div>
+                    <span id={name} className="trash" onClick={this.props.delete}>
+                        X
+                    </span>
+                </div>
+            )
         });
 
         return (
             <div className="tab">
-                <p>Absent: <span className="pax-count">{paxCount}</span></p>
+                <h3>Absent: <span className="pax-count">{paxCount}</span></h3>
                 <div className="names" id="absent">
                     {absentNames}
                 </div>
