@@ -24,23 +24,56 @@ class Attendance extends Component {
 
             for (let i = 0; i < inputQuery.length; i++) {
                 let queryPair = inputQuery[i].split('=');
-                queryParams[queryPair[0]] = queryPair[1].split('+').sort((a, b) => {
-                    return a.toLowerCase().localeCompare(b.toLowerCase());
-                });
+                queryParams[queryPair[0]] = queryPair[1].toLowerCase().split('+');
             };
 
             this.setState({present: queryParams.present, absent: queryParams.absent});
         }
     }
 
-    // componentDidUpdate = () => {
-    //     console.log("state updated!");
-    // }
+    formNewURL = () => {
+        let currentState = this.state;
+        let newQuery = [];
+
+        Object.keys(currentState).forEach((key, index) => {
+            let newValue = currentState[key].join("+").replace(/ /g, '%20');
+            let newPair = [key.concat("=", newValue)];
+            newQuery = [...newQuery, newPair];
+        })
+
+        newQuery = "?".concat(newQuery.join("&"));
+
+        console.log(newQuery);
+        console.log(this.props);
+        this.props.history.push('/'+newQuery);
+    }
+
+    submitHandler = (event) => {
+        if (event.keyCode === 13) {
+            let newName = event.target.value.trim();
+            if (newName.length < 1 ) {
+                alert("Please enter a name!");
+            } else {
+                console.log("New name!", newName);
+                let updatedPresent = this.state.present;
+                updatedPresent = [...updatedPresent, newName.toLowerCase()];
+                this.setState({present: updatedPresent}, () => {
+                    console.log(this.state);
+                    this.formNewURL();
+                });
+            };
+            event.target.value = "";
+        }
+    }
 
     render() {
         console.log("rendering!", this.state);
-        let sortedPresent = this.state.present;
-        let sortedAbsent = this.state.absent;
+        let sortedPresent = this.state.present.sort((a, b) => {
+            return a.localeCompare(b);
+        });
+        let sortedAbsent = this.state.absent.sort((a, b) => {
+            return a.localeCompare(b);
+        });
 
         let presentCount = this.state.present.length;
         let absentCount = this.state.absent.length;
@@ -56,7 +89,7 @@ class Attendance extends Component {
 
         return (
             <div>
-                <input type="text" id="name-input" name="name"/>
+                <input type="text" id="name-input" name="name" onKeyDown={this.submitHandler}/>
                 <p>Present: <span id="present-count">{presentCount}</span></p>
                 <ul id="present">
                     {presentNames}
