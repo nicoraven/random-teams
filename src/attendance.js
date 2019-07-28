@@ -40,7 +40,7 @@ class Attendance extends Component {
     render() {
         console.log("rendering!", this.state);
         let sortedPresent = this.state.present;
-        let sortedAbsent = this.state.present;
+        let sortedAbsent = this.state.absent;
 
         let presentCount = this.state.present.length;
         let absentCount = this.state.absent.length;
