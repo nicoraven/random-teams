@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Attendance from './attendance';
-// import Groupings from './groupings';
+import Groupings from './groupings';
 
 class App extends Component {
     state = {
@@ -103,6 +103,9 @@ class App extends Component {
                     addName={this.addName}
                     toggleAttendance={this.toggleAttendance}
                     deleteName={this.deleteName}
+                />
+                <Groupings
+                    people={this.state.people}
                 />
             </div>
         )
