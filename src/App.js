@@ -6,8 +6,10 @@ import Attendance from './attendance';
 
 class App extends Component {
     state = {
-        present: [],
-        absent: []
+        people: {
+            present: [],
+            absent: []
+        }
     }
 
     componentDidMount(){
@@ -31,16 +33,16 @@ class App extends Component {
                 }
             };
 
-            this.setState({present: queryParams.present, absent: queryParams.absent});
+            this.setState({people: queryParams});
         }
     }
 
     formNewURL = () => {
-        let currentState = this.state;
+        let currentPeople = this.state.people;
         let newQuery = [];
 
-        Object.keys(currentState).forEach((key, index) => {
-            let newValue = currentState[key].join("+").replace(/ /g, '%20');
+        Object.keys(currentPeople).forEach((key, index) => {
+            let newValue = currentPeople[key].join("+").replace(/ /g, '%20');
             let newPair = [key.concat("=", newValue)];
             newQuery = [...newQuery, newPair];
         })
@@ -52,9 +54,16 @@ class App extends Component {
 
     addName = (newName) => {
         console.log("New name!", newName);
-        let updatedPresent = this.state.present;
+        let updatedPresent = this.state.people.present;
         updatedPresent = [...updatedPresent, newName.toLowerCase()];
         this.setState({present: updatedPresent}, () => {
+            console.log("added!", this.state);
+            this.formNewURL();
+        });
+
+        let updatedPeople = this.state.people;
+        updatedPeople.present = [...updatedPeople.present, newName.toLowerCase()];
+        this.setState({people: updatedPeople}, () => {
             console.log("added!", this.state);
             this.formNewURL();
         });
@@ -63,25 +72,25 @@ class App extends Component {
     toggleAttendance = (category, name, index) => {
         let clickedName = name.toLowerCase();
         let attendance = category;
-        let updatedList = this.state;
+        let updatedPeople = this.state.people;
 
-        updatedList[attendance].splice(index, 1);
+        updatedPeople[attendance].splice(index, 1);
 
         if (attendance === "present") {
-            updatedList.absent = [...updatedList.absent, clickedName];
+            updatedPeople.absent = [...updatedPeople.absent, clickedName];
         } else {
-            updatedList.present = [...updatedList.present, clickedName];
+            updatedPeople.present = [...updatedPeople.present, clickedName];
         };
 
-        this.setState({present: updatedList.present, absent: updatedList.absent}, () => {
+        this.setState({people: updatedPeople}, () => {
             this.formNewURL();
         });
     }
 
     deleteName = (name, index) => {
-        let updatedList = this.state.absent;
-        updatedList.splice(index, 1);
-        this.setState({absent: updatedList}, () => {
+        let updatedPeople = this.state.people;
+        updatedPeople.absent.splice(index, 1);
+        this.setState({people: updatedPeople}, () => {
             this.formNewURL();
         });
     }
@@ -90,8 +99,7 @@ class App extends Component {
         return (
             <div className="content-wrapper">
                 <Attendance
-                    present={this.state.present}
-                    absent={this.state.absent}
+                    people={this.state.people}
                     addName={this.addName}
                     toggleAttendance={this.toggleAttendance}
                     deleteName={this.deleteName}

@@ -16,8 +16,9 @@ class Attendance extends Component {
     }
 
     render() {
-        let presentCount = this.props.present ? this.props.present.length : 0;
-        let absentCount = this.props.absent ? this.props.absent.length : 0;
+        let people = this.props.people;
+        let presentCount = people.present ? people.present.length : 0;
+        let absentCount = people.absent ? people.absent.length : 0;
         let totalCount = presentCount + absentCount;
 
         return (
@@ -25,8 +26,8 @@ class Attendance extends Component {
                 <h2>People <span className="total-count">Total: {totalCount}</span></h2>
                 <input type="text" id="name-input" name="name" placeholder="enter new name" onKeyDown={this.submitHandler}/>
                 <div id="attendance-lists">
-                    <PresentTab present={this.props.present} switch={this.props.toggleAttendance} paxCount={presentCount} />
-                    <AbsentTab absent={this.props.absent} switch={this.props.toggleAttendance} paxCount={absentCount} delete={this.props.deleteName} />
+                    <PresentTab present={people.present} switch={this.props.toggleAttendance} paxCount={presentCount} />
+                    <AbsentTab absent={people.absent} switch={this.props.toggleAttendance} paxCount={absentCount} delete={this.props.deleteName} />
                 </div>
             </div>
         )
