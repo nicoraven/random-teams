@@ -3,13 +3,20 @@ div {
 	border-radius: 0.2rem;
 }
 
-.page-wrapper {
-	padding: 20px;
+.content-wrapper {
+	display: flex;
+	border: solid 1px red;
 }
 
-#header {
-	text-decoration: underline;
-	margin: 0;
+#attendance-wrapper {
+	max-width: 33%;
+	flex-grow: 1;
+	border: solid 1px red;
+}
+
+#groupings-wrapper {
+	flex-grow: 2;
+	border: solid 1px red;
 }
 
 h2 {
@@ -51,6 +58,7 @@ input:focus {
 	line-height: 1.5;
 	margin-bottom: 0.25rem;
 	text-align: center;
+	font-size: 0.9rem;
 }
 
 .present {
@@ -91,6 +99,8 @@ input:focus {
 .trash {
 	cursor: pointer;
 	position: absolute;
-	left: 80%;
+	right: 8%;
+	top: 45%;
+	transform: translateY(-50%);
 	color: #000;
 }

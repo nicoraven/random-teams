@@ -2,47 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Attendance extends Component {
-    state = {
-        present: [],
-        absent: []
-    }
-
-    componentDidMount(){
-        this.getNamesFromURL();
-    }
-
-    getNamesFromURL = () => {
-        // console.log(this.props.location.search);
-        if (this.props.location.search.length > 0) {
-
-            let queryParams = {};
-            let inputQuery = this.props.location.search.replace('?','').replace(/%20/g, ' ').split('&');
-
-            for (let i = 0; i < inputQuery.length; i++) {
-                let queryPair = inputQuery[i].split('=');
-                if (queryPair[1]) {
-                    queryParams[queryPair[0]] = queryPair[1].toLowerCase().split('+');
-                }
-            };
-
-            this.setState({present: queryParams.present, absent: queryParams.absent});
-        }
-    }
-
-    formNewURL = () => {
-        let currentState = this.state;
-        let newQuery = [];
-
-        Object.keys(currentState).forEach((key, index) => {
-            let newValue = currentState[key].join("+").replace(/ /g, '%20');
-            let newPair = [key.concat("=", newValue)];
-            newQuery = [...newQuery, newPair];
-        })
-
-        newQuery = "?".concat(newQuery.join("&"));
-
-        this.props.history.push('/'+newQuery);
-    }
 
     submitHandler = (event) => {
         if (event.keyCode === 13) {
@@ -50,47 +9,15 @@ class Attendance extends Component {
             if (newName.length < 1 ) {
                 alert("Please enter a name!");
             } else {
-                console.log("New name!", newName);
-                let updatedPresent = this.state.present;
-                updatedPresent = [...updatedPresent, newName.toLowerCase()];
-                this.setState({present: updatedPresent}, () => {
-                    console.log("added!", this.state);
-                    this.formNewURL();
-                });
+                this.props.addName(newName);
             };
             event.target.value = "";
         }
     }
 
-    toggleAttendance = (category, name, index) => {
-        let clickedName = name.toLowerCase();
-        let attendance = category;
-        let updatedList = this.state;
-
-        updatedList[attendance].splice(index, 1);
-
-        if (attendance === "present") {
-            updatedList.absent = [...updatedList.absent, clickedName];
-        } else {
-            updatedList.present = [...updatedList.present, clickedName];
-        };
-
-        this.setState({present: updatedList.present, absent: updatedList.absent}, () => {
-            this.formNewURL();
-        });
-    }
-
-    deleteName = (name, index) => {
-        let updatedList = this.state.absent;
-        updatedList.splice(index, 1);
-        this.setState({absent: updatedList}, () => {
-            this.formNewURL();
-        });
-    }
-
     render() {
-        let presentCount = this.state.present ? this.state.present.length : 0;
-        let absentCount = this.state.absent ? this.state.absent.length : 0;
+        let presentCount = this.props.present ? this.props.present.length : 0;
+        let absentCount = this.props.absent ? this.props.absent.length : 0;
         let totalCount = presentCount + absentCount;
 
         return (
@@ -98,8 +25,8 @@ class Attendance extends Component {
                 <h2>People <span className="total-count">Total: {totalCount}</span></h2>
                 <input type="text" id="name-input" name="name" placeholder="enter new name" onKeyDown={this.submitHandler}/>
                 <div id="attendance-lists">
-                    <PresentTab present={this.state.present} switch={this.toggleAttendance} paxCount={presentCount} />
-                    <AbsentTab absent={this.state.absent} switch={this.toggleAttendance} paxCount={absentCount} delete={this.deleteName} />
+                    <PresentTab present={this.props.present} switch={this.props.toggleAttendance} paxCount={presentCount} />
+                    <AbsentTab absent={this.props.absent} switch={this.props.toggleAttendance} paxCount={absentCount} delete={this.props.deleteName} />
                 </div>
             </div>
         )
