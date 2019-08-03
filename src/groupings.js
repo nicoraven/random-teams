@@ -4,7 +4,8 @@ import './App.css';
 class Groupings extends Component {
     state = {
         pax: 1,
-        custom: false
+        custom: false,
+        bucketCount: 1
     }
 
     changeHandler = (event) => {
@@ -18,7 +19,19 @@ class Groupings extends Component {
         this.setState({custom: custom});
     }
 
+    shuffleArray = (arr) => {
+        for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i+1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
     render() {
+        let presentPeople = [...this.props.people.present];
+        let shuffled = this.shuffleArray(presentPeople);
+        console.log("shuffled", shuffled);
+
         return (
             <div id="groupings-wrapper">
                 <h2>Groups</h2>

@@ -53,18 +53,10 @@ class App extends Component {
     }
 
     addName = (newName) => {
-        console.log("New name!", newName);
-        let updatedPresent = this.state.people.present;
-        updatedPresent = [...updatedPresent, newName.toLowerCase()];
-        this.setState({present: updatedPresent}, () => {
-            console.log("added!", this.state);
-            this.formNewURL();
-        });
-
         let updatedPeople = this.state.people;
         updatedPeople.present = [...updatedPeople.present, newName.toLowerCase()];
         this.setState({people: updatedPeople}, () => {
-            console.log("added!", this.state);
+            console.log("added!", this.state.people.present);
             this.formNewURL();
         });
     }

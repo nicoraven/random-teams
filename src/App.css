@@ -46,7 +46,7 @@ input, .group-input:focus {
 	outline: none;
 }
 
-#custom-group {
+input, #custom-group {
 	padding: 0em 0.4em;
 }
 
