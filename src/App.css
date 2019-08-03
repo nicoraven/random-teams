@@ -27,17 +27,31 @@ h2, h3 {
 	margin: 10px 0;
 }
 
-input {
+input, .group-input {
+	box-sizing: border-box;
 	border: solid 1px #CED4DA;
 	border-radius: 0.4rem;
-	padding: 0em 0.4em;
 	font-size: 1em;
 	overflow: auto;
 	margin-bottom: 5px;
 }
 
-input:focus {
+.group-input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 30%;
+}
+
+input, .group-input:focus {
 	outline: none;
+}
+
+#custom-group {
+	padding: 0em 0.4em;
+}
+
+#pax-group {
+	padding: 0.5em;
 }
 
 #attendance-lists {
