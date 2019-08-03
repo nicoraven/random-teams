@@ -9,9 +9,7 @@ class Groupings extends Component {
     }
 
     changeHandler = (event) => {
-        this.setState({pax: event.target.value}, () => {
-            console.log(this.state.pax)
-        });
+        this.setState({pax: parseInt(event.target.value)});
     }
 
     toggleCustom = () => {
@@ -27,10 +25,36 @@ class Groupings extends Component {
         return arr;
     }
 
+    createBuckets = (arr) => {
+        let bucketSize = this.state.pax;
+        let buckets = [];
+        for (let i = 0, j = arr.length; i < j; i += bucketSize) {
+            let bucket = arr.slice(i , i + bucketSize);
+            buckets.push(bucket);
+        }
+        return buckets;
+    }
+
+    renderBucket = (names) => {
+        return names.map((name, index) => {
+            return <p key={index}>{name}</p>
+        });
+    }
+
     render() {
         let presentPeople = [...this.props.people.present];
         let shuffled = this.shuffleArray(presentPeople);
-        console.log("shuffled", shuffled);
+        let buckets = this.createBuckets(shuffled);
+
+        let groups = buckets.map((bucket, index) => {
+            bucket = this.renderBucket(bucket);
+            return (
+                <div key={index} className="group">
+                    <p className="group-index">{index+1}</p>
+                    <div>{bucket}</div>
+                </div>
+            )
+        })
 
         return (
             <div id="groupings-wrapper">
@@ -42,8 +66,9 @@ class Groupings extends Component {
                         <input type="checkbox" onChange={this.toggleCustom} />
                     </div>
                 </div>
-
-                <div id="grouping-results"></div>
+                <div id="grouping-results">
+                    {groups}
+                </div>
             </div>
         )
     }

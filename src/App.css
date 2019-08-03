@@ -9,13 +9,12 @@ div {
 }
 
 #attendance-wrapper {
-	max-width: 33%;
-	flex-grow: 1;
+	width: calc(100% / 3);
 	border: solid 1px red;
 }
 
 #groupings-wrapper {
-	flex-grow: 2;
+	width: calc(100% * calc(2/3));
 	border: solid 1px red;
 }
 
@@ -117,4 +116,30 @@ input, #custom-group {
 	top: 45%;
 	transform: translateY(-50%);
 	color: #000;
+}
+
+#grouping-results {
+	display: flex;
+	flex-wrap: wrap;
+	/*justify-content: flex-start;*/
+	border: solid 1px red;
+}
+
+.group {
+	border: solid 1px #CED4DA;
+	padding: 0.5rem;
+	line-height: 1.5;
+	margin: 0.25em;
+	font-size: 0.9rem;
+	display: inline-block;
+	width: calc(calc(100% - 1.5em)/3); ;
+	box-sizing: border-box;
+}
+
+p {
+	margin: 0.25em;
+}
+
+.group-index {
+	font-weight: bold;
 }
