@@ -5,7 +5,7 @@ class Groupings extends Component {
     state = {
         pax: 1,
         custom: false,
-        bucketCount: 3
+        bucketCount: 1
     }
 
     changeHandler = (event) => {
@@ -25,18 +25,27 @@ class Groupings extends Component {
         return arr;
     }
 
+    customGroups = (event) => {
+        if (event.keyCode === 13) {
+            let input = event.target;
+            this.setState({bucketCount: input.value}, () => {
+                input.value = "";
+                input.blur();
+            });
+        };
+    }
+
     createBuckets = (arr) => {
         let buckets = [];
         if (this.state.custom) {
             // buckets restricted by bucketCount
             let bucketCount = this.state.bucketCount,
             bucketSize = Math.ceil(arr.length / bucketCount);
-            console.log("bucketSize", bucketSize);
             for (let i = 0, j = 0; i < bucketCount; i++, j += bucketSize) {
                 // for each bucket, slice bucketSize amount of names into it
                 let group = (i + 1) * bucketSize;
                 buckets[i] = arr.slice(j, group);
-            }
+            };
         } else {
             // buckets restricted by bucketSize
             let bucketSize = this.state.pax;
@@ -45,7 +54,6 @@ class Groupings extends Component {
                 buckets.push(bucket);
             }
         }
-        console.log("buckets", buckets)
         return buckets;
     }
 
@@ -58,8 +66,8 @@ class Groupings extends Component {
 
     render() {
         let presentPeople = [...this.props.people.present];
-        // let shuffled = this.shuffleArray(presentPeople);
-        let buckets = this.createBuckets(presentPeople);
+        let shuffled = this.shuffleArray(presentPeople);
+        let buckets = this.createBuckets(shuffled);
 
         let groups = buckets.map((bucket, index) => {
             bucket = this.renderBucket(bucket);
@@ -69,13 +77,15 @@ class Groupings extends Component {
                     <div>{bucket}</div>
                 </div>
             )
-        })
+        });
+
+        let totalCount = buckets.length;
 
         return (
             <div id="groupings-wrapper">
-                <h2>Groups</h2>
+                <h2>Groups <span className="total-count">Total: {totalCount}</span></h2>
                 <div id="grouping-menu">
-                    <SortingMenu custom={this.state.custom} pax={this.state.pax} changeHandler={this.changeHandler} />
+                    <SortingMenu custom={this.state.custom} pax={this.state.pax} changeHandler={this.changeHandler} customGroups={this.customGroups} />
                     <div>
                         <label>Custom Groups</label>
                         <input type="checkbox" onChange={this.toggleCustom} />
@@ -96,6 +106,7 @@ class SortingMenu extends Component {
             <React.Fragment>
                 <input className="group-input" id="custom-group" 
                     placeholder="Custom no. of groups" 
+                    onKeyDown={this.props.customGroups}
                 />
             </React.Fragment>
         ) : (

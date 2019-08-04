@@ -5,17 +5,17 @@ div {
 
 .content-wrapper {
 	display: flex;
-	border: solid 1px red;
+	/* border: solid 1px red; */
 }
 
 #attendance-wrapper {
 	width: calc(100% / 3);
-	border: solid 1px red;
+	/* border: solid 1px red; */
 }
 
 #groupings-wrapper {
 	width: calc(100% * calc(2/3));
-	border: solid 1px red;
+	/* border: solid 1px red; */
 }
 
 h2 {
@@ -122,7 +122,7 @@ input, #custom-group {
 	display: flex;
 	flex-wrap: wrap;
 	/*justify-content: flex-start;*/
-	border: solid 1px red;
+	/* border: solid 1px red; */
 }
 
 .group {
