@@ -5,7 +5,8 @@ class Groupings extends Component {
     state = {
         pax: 1,
         custom: false,
-        bucketCount: 1
+        bucketCount: 1,
+        shuffle: 0
     }
 
     changeHandler = (event) => {
@@ -64,6 +65,12 @@ class Groupings extends Component {
         });
     }
 
+    shuffle = () => {
+        let count = this.state.count;
+        count++;
+        this.setState({shuffle: count});
+    }
+
     render() {
         let presentPeople = [...this.props.people.present];
         let shuffled = this.shuffleArray(presentPeople);
@@ -86,6 +93,7 @@ class Groupings extends Component {
                 <h2>Groups <span className="total-count">Total: {totalCount}</span></h2>
                 <div id="grouping-menu">
                     <SortingMenu custom={this.state.custom} pax={this.state.pax} changeHandler={this.changeHandler} customGroups={this.customGroups} />
+                    <button id="shuffle" onClick={this.shuffle}>Shuffle</button>
                     <div>
                         <label>Custom Groups</label>
                         <input type="checkbox" onChange={this.toggleCustom} />
@@ -107,6 +115,7 @@ class SortingMenu extends Component {
                 <input className="group-input" id="custom-group" 
                     placeholder="Custom no. of groups" 
                     onKeyDown={this.props.customGroups}
+                    autoComplete="off"
                 />
             </React.Fragment>
         ) : (
