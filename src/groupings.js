@@ -6,7 +6,8 @@ class Groupings extends Component {
         pax: 1,
         custom: false,
         bucketCount: 1,
-        shuffle: 0
+        shuffle: 0,
+        fullGroup: false
     }
 
     changeHandler = (event) => {
@@ -36,7 +37,16 @@ class Groupings extends Component {
         };
     }
 
+    toggleFullGroup = () => {
+        let fullGroup = !this.state.fullGroup;
+        this.setState({fullGroup: fullGroup});
+    }
+
     createBuckets = (arr) => {
+        // if fullGroup, do modulus
+        // if mod > 0, arr.length = arr.length - remainder
+        // once everything sorted, using for loop insert remainder into created groups
+        
         let buckets = [];
         if (this.state.custom) {
             // buckets restricted by bucketCount
@@ -50,11 +60,21 @@ class Groupings extends Component {
         } else {
             // buckets restricted by bucketSize
             let bucketSize = this.state.pax;
+            let remainder = this.state.fullGroup ? (arr.length % bucketSize) : 0;
+            console.log("remainder", remainder);
+            let balance = arr.splice(0, remainder);
+            console.log("balance", balance);
             for (let i = 0, j = arr.length; i < j; i += bucketSize) {
                 let bucket = arr.slice(i , i + bucketSize);
                 buckets.push(bucket);
+            };
+            if (this.state.fullGroup) {
+                for (let i = 0; i < balance.length; i++) {
+                    buckets[i].push(balance[i]);
+                };
             }
         }
+        console.log(buckets);
         return buckets;
     }
 
@@ -97,6 +117,8 @@ class Groupings extends Component {
                     <div>
                         <label>Custom Groups</label>
                         <input type="checkbox" onChange={this.toggleCustom} />
+                        <label>No Person Left Behind</label>
+                        <input type="checkbox" onChange={this.toggleFullGroup} />
                     </div>
                 </div>
                 <div id="grouping-results">
