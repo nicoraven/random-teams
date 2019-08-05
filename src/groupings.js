@@ -50,20 +50,25 @@ class Groupings extends Component {
         let buckets = [];
         if (this.state.custom) {
             // buckets restricted by bucketCount
-            let bucketCount = this.state.bucketCount,
-            bucketSize = Math.ceil(arr.length / bucketCount);
+            let bucketCount = this.state.bucketCount;
+            let bucketSize = Math.floor(arr.length / bucketCount);
+            let totalSorted = bucketSize * bucketCount;
+            let remainder = arr.length - totalSorted;
             for (let i = 0, j = 0; i < bucketCount; i++, j += bucketSize) {
                 // for each bucket, slice bucketSize amount of names into it
                 let group = (i + 1) * bucketSize;
                 buckets[i] = arr.slice(j, group);
             };
+            if (remainder > 0) {
+                for (let i = 0; i < remainder; i++) {
+                    buckets[i].push(arr[totalSorted + 1]);
+                };
+            }
         } else {
             // buckets restricted by bucketSize
             let bucketSize = this.state.pax;
             let remainder = this.state.fullGroup ? (arr.length % bucketSize) : 0;
-            console.log("remainder", remainder);
             let balance = arr.splice(0, remainder);
-            console.log("balance", balance);
             for (let i = 0, j = arr.length; i < j; i += bucketSize) {
                 let bucket = arr.slice(i , i + bucketSize);
                 buckets.push(bucket);
@@ -106,18 +111,18 @@ class Groupings extends Component {
             )
         });
 
-        let totalCount = buckets.length;
+        let totalGroups = buckets.length;
 
         return (
             <div id="groupings-wrapper">
-                <h2>Groups <span className="total-count">Total: {totalCount}</span></h2>
+                <h2>Groups <span className="total-count">Total: {totalGroups}</span></h2>
                 <div id="grouping-menu">
                     <SortingMenu custom={this.state.custom} pax={this.state.pax} changeHandler={this.changeHandler} customGroups={this.customGroups} />
                     <button id="shuffle" onClick={this.shuffle}>Shuffle</button>
                     <div>
                         <label>Custom Groups</label>
                         <input type="checkbox" onChange={this.toggleCustom} />
-                        <label>No Person Left Behind</label>
+                        <label>No One Left Behind</label>
                         <input type="checkbox" onChange={this.toggleFullGroup} />
                     </div>
                 </div>
