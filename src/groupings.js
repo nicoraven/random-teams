@@ -113,6 +113,13 @@ class Groupings extends Component {
 
         let totalGroups = buckets.length;
 
+        let nolbCheckbox = this.state.custom ? null : (
+        <React.Fragment>
+            <label>No One Left Behind</label>
+            <input type="checkbox" onChange={this.toggleFullGroup} />
+        </React.Fragment>
+        );
+
         return (
             <div id="groupings-wrapper">
                 <h2>Groups <span className="total-count">Total: {totalGroups}</span></h2>
@@ -122,8 +129,7 @@ class Groupings extends Component {
                     <div>
                         <label>Custom Groups</label>
                         <input type="checkbox" onChange={this.toggleCustom} />
-                        <label>No One Left Behind</label>
-                        <input type="checkbox" onChange={this.toggleFullGroup} />
+                        {nolbCheckbox}
                     </div>
                 </div>
                 <div id="grouping-results">
