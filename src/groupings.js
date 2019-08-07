@@ -61,7 +61,7 @@ class Groupings extends Component {
             };
             if (remainder > 0) {
                 for (let i = 0; i < remainder; i++) {
-                    buckets[i].push(arr[totalSorted + 1]);
+                    buckets[i].push(arr[totalSorted + i]);
                 };
             }
         } else {
