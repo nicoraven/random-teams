@@ -10,7 +10,7 @@ The Really Really Random Teams generator was created mainly to facilitate random
 * Activating No One Left Behind will sort the last group equally into the first few groups when the total number of names in it is lesser than the group size stated.
 * List of names are shuffled using a Mersenne Twister implementation because someone felt that Math.random() was not random enough. ¯\\_(ツ)_/¯
 
-*Note: Updating the People list will automatically reshuffle the groupings. Recommended to confirm the attandance and then clicking on the `Shuffle` button as many times as you feel like clicking.*
+*Note: Updating the People list will automatically reshuffle the groupings. Recommended to confirm the attendance and then clicking on the `Shuffle` button as many times as you feel like clicking.*
 
 ## If You Want To Play With It
 
