@@ -45,10 +45,6 @@ class Groupings extends Component {
     }
 
     createBuckets = (arr) => {
-        // if fullGroup, do modulus
-        // if mod > 0, arr.length = arr.length - remainder
-        // once everything sorted, using for loop insert remainder into created groups
-        
         let buckets = [];
         if (this.state.custom) {
             // buckets restricted by bucketCount
@@ -81,7 +77,7 @@ class Groupings extends Component {
                 };
             }
         }
-        console.log(buckets);
+        // console.log(buckets);
         return buckets;
     }
 
@@ -116,10 +112,9 @@ class Groupings extends Component {
         let totalGroups = buckets.length;
 
         let nolbCheckbox = this.state.custom ? null : (
-        <React.Fragment>
-            <label>No One Left Behind</label>
-            <input type="checkbox" onChange={this.toggleFullGroup} />
-        </React.Fragment>
+            <label className="container">No One Left Behind
+                <input type="checkbox" onChange={this.toggleFullGroup} /><span className="checkmark"></span>
+            </label>
         );
 
         return (
@@ -129,8 +124,9 @@ class Groupings extends Component {
                     <SortingMenu custom={this.state.custom} pax={this.state.pax} changeHandler={this.changeHandler} customGroups={this.customGroups} />
                     <button id="shuffle" onClick={this.shuffle}>Shuffle</button>
                     <div>
-                        <label>Custom Groups</label>
-                        <input type="checkbox" onChange={this.toggleCustom} />
+                        <label className="container">Custom Groups
+                            <input type="checkbox" onChange={this.toggleCustom} /><span className="checkmark"></span>
+                        </label>
                         {nolbCheckbox}
                     </div>
                 </div>
