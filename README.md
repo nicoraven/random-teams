@@ -1,68 +1,48 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Random Teams Generator
 
-## Available Scripts
+> This project was created using `create-react-app`.
 
-In the project directory, you can run:
+The Really Really Random Teams generator was created mainly to facilitate randomly breaking up the class into groups, and also to practice using ReactJS.
 
-### `npm start`
+## Features
+* Names added into the app will be automatically appended into the url for easy sharing. These names will still remain there when their attendance are toggled until they are deleted.
+* Randomly sort names into groups based on either group size (eg. pairs) or number of groups (eg. 4 groups).
+* Activating No One Left Behind will sort the last group equally into the first few groups when the total number of names in it is lesser than the group size stated.
+* List of names are shuffled using a Mersenne Twister implementation because someone felt that Math.random() was not random enough. ¯\\_(ツ)_/¯
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+*Note: Updating the People list will automatically reshuffle the groupings. Recommended to confirm the attandance and then clicking on the `Shuffle` button as many times as you feel like clicking.*
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## If You Want To Play With It
 
-### `npm test`
+1. Fork and/or clone the repo.
+```
+$ git clone https://github.com/nicoraven/random-teams.git
+```
+2. cd into the directory and run `npm install`.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Run `npm start` to run it on localhost.
 
-### `npm run build`
+#### To deploy it on your own GitHub Pages
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Update the value of the homepage property in `package.json`. It should be a string `http://{username}.github.io/{repo-name}`, where {username} is your GitHub username, and {repo-name} is the name of this GitHub repository you forked (and may/may not have changed afterwards).
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
+//...
+"homepage": "http://nicoraven.github.io/random-teams"
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Generate a production build of your app, and deploy it to GitHub Pages.
 
-### `npm run eject`
+```
+$ npm run deploy
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Resources
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* [Create React App documention](https://github.com/facebook/create-react-app)
+* [GitHub Pages](https://pages.github.com/)
+* [Deploying a React App to GitHub Pages](https://github.com/gitname/react-gh-pages)
+* [Mersenne Twister pseudorandom number generator
+](https://github.com/boo1ean/mersenne-twister) ([Origin source](https://gist.github.com/banksean/300494))
