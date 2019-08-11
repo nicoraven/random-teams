@@ -10,7 +10,6 @@
 /* ======= */
 
 div {
-	/*border: solid 1px red;*/
 	border-radius: 0.2rem;
 }
 
@@ -70,18 +69,15 @@ p {
 }
 
 #attendance-lists {
-	/*border: solid 1px red;*/
 	display: flex;
 }
 
 #attendance-wrapper {
 	width: calc(100% / 3);
-	/* border: solid 1px red; */
 }
 
 .content-wrapper {
 	display: flex;
-	/* border: solid 1px red; */
 }
 
 .group {
@@ -89,7 +85,6 @@ p {
 	padding: 0.5rem;
 	line-height: 1.5;
 	margin: 0.25em;
-	font-size: 0.9rem;
 	display: inline-block;
 	width: calc(calc(100% - 1.5em)/3); ;
 	box-sizing: border-box;
@@ -108,13 +103,10 @@ p {
 #grouping-results {
 	display: flex;
 	flex-wrap: wrap;
-	/*justify-content: flex-start;*/
-	/* border: solid 1px red; */
 }
 
 #groupings-wrapper {
 	width: calc(100% * calc(2/3));
-	/* border: solid 1px red; */
 }
 
 .name {
@@ -167,7 +159,6 @@ p {
 }
 
 .tab {
-	/*border: solid 1px blue;*/
 	width: 50%;
 }
 
@@ -260,4 +251,55 @@ p {
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
+}
+
+/* ======= */
+/* =============================== */
+/* =============================== */
+/* =============================== */
+/* ======= */
+
+@media only screen and (max-width: 870px) {
+
+	#attendance-wrapper {
+		width: 100%;
+		order: 2;
+	}
+
+	.content-wrapper{
+		flex-direction: column;
+	}
+
+	#custom-group, #name-input {
+		padding: 4px;
+	}
+
+	.group {
+		width: calc(calc(100% - 2em)/4); ;
+	}
+
+	#groupings-wrapper {
+		width: 100%;
+	}
+
+}
+
+@media only screen and (max-width: 500px) {
+
+	.group {
+		width: calc(calc(100% - 1em)/2);
+	}
+
+	#pax-group, #custom-group {
+		width: calc(calc(100%) * calc(3/4) - 10px);
+	}
+
+	#name-input {
+		width: 100%;
+	}
+
+	#shuffle {
+		width: calc(calc(100%)/4);
+	}
+
 }

@@ -24,7 +24,7 @@ class Attendance extends Component {
         return (
             <div id="attendance-wrapper">
                 <h2>People <span className="total-count">Total: {totalCount}</span></h2>
-                <input type="text" id="name-input" name="name" placeholder="enter new name" onKeyDown={this.submitHandler} autoComplete="off"/>
+                <input type="text" id="name-input" name="name" placeholder="Enter new name" onKeyDown={this.submitHandler} autoComplete="off"/>
                 <div id="attendance-lists">
                     <PresentTab present={people.present} switch={this.props.toggleAttendance} paxCount={presentCount} />
                     <AbsentTab absent={people.absent} switch={this.props.toggleAttendance} paxCount={absentCount} delete={this.props.deleteName} />
